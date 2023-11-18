@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import axios from 'react-axios';
+import axios from 'axios';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -10,6 +10,7 @@ const Register = () => {
     const [password, setPassword] = useState('')
 
     const submitHandler = async (e) => {
+        console.log("object")
         e.preventDefault();
         const myForm = new FormData()
         myForm.append('name', name)
@@ -18,15 +19,13 @@ const Register = () => {
         setName('')
         setEmail('')
         setPassword('')
-
         try {
             const response = await axios.post('/api/register', myForm);
             console.log('Registration successful:', response.data);
+            navigate('/')
         } catch (error) {
-            console.error('Registration failed:', error.response.data);
+            console.error('Registration failed:', error);
         }
-
-
     }
     return (
         <>
@@ -35,15 +34,15 @@ const Register = () => {
                 <form onSubmit={submitHandler}>
                     <div className="form-group">
                         <label htmlFor="name">Name:</label>
-                        <input type="text" id="username" name="username" required />
+                        <input type="text" value={name} name="name" onChange={(e) => setName(e.target.value)} required />
                     </div>
                     <div className="form-group">
                         <label htmlFor="email">Email:</label>
-                        <input type="email" id="email" name="email" required />
+                        <input type="email" value={email} name="email" onChange={(e) => setEmail(e.target.value)} required />
                     </div>
                     <div className="form-group">
                         <label htmlFor="password">Password:</label>
-                        <input type="password" id="password" name="password" required />
+                        <input type="password" value={password} name="password" onChange={(e) => setPassword(e.target.value)} required />
                     </div>
                     <button type="submit">Register</button>
                 </form>

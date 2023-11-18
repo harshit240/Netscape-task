@@ -4,12 +4,12 @@ const api = require('./Routes/api')
 const dotenv = require('dotenv')
 
 const fileUpload = require("express-fileupload");
-const cors=require('cors')
+const cors = require('cors')
 app.use(cors())
 //Temp file uploader
-app.use(fileUpload({useTempFiles: true}));
+app.use(fileUpload({ useTempFiles: true }));
 dotenv.config({
-  path:'.env'
+  path: '.env'
 })
 
 const cookieParser = require('cookie-parser');
@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 
 
 // API ROUTING
-app.use('/api',api)
+app.use('/api', api)
 
 
 app.listen(process.env.PORT, () => {

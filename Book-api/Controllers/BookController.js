@@ -1,7 +1,7 @@
 const bookModel = require('../models/Book');
 const checkoutModel = require('../models/Checkouts');
 
-class BooController {
+class BookController {
 
   static getAllBooks = async (req, res) => {
     try {
@@ -18,6 +18,14 @@ class BooController {
   static createBook = async (req, res) => {
     // console.log(req.body);
     try {
+
+      if (!title || !author || !isbn || !published_at || !copies) {
+        return res.status(400).json({
+          status: 'error',
+          message: 'All fields are required',
+        });
+      }
+      
       const addBook = await bookModel.create({
         title: req.body.title,
         author: req.body.author,
@@ -135,4 +143,4 @@ class BooController {
   }
 }
 
-module.exports = BooController;
+module.exports = BookController;
