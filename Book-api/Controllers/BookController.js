@@ -1,4 +1,5 @@
-const bookModel = require('../models/Book')
+const bookModel = require('../models/Book');
+const checkoutModel = require('../models/Checkouts');
 
 class BooController {
 
@@ -83,9 +84,14 @@ class BooController {
       if (book.copies === 0) {
         return res.status(400).json({ error: 'No available copies of the book' });
       }
+      const checkout = await checkoutModel.create({
+        user_id: user._id,
+        book_id: req.params.id,
+      });
       book.copies--;
 
       await book.save();
+      await checkout.save();
 
       res.json({ message: 'Book checked out successfully', checkedOutBook: book });
 
@@ -99,9 +105,32 @@ class BooController {
 
   static returnBook = async (req, res) => {
     try {
-      
+      const checkoutId = req.params.id;
+
+      const checkout = await checkoutModel.findOne({book_id:checkoutId});
+
+      if (!checkout) {
+        return res.status(404).json({ error: 'Checkout entry not found' });
+      }
+
+      if (checkout.returned) {
+        return res.status(400).json({ error: 'Book already returned' });
+      }
+
+      checkout.returned = true;
+
+      await checkout.save();
+
+      const book = await bookModel.findById(checkout.book_id);
+      book.copies++;
+
+      await book.save();
+
+      res.json({ message: 'Book marked as returned successfully', returnedBook: book });
+
     } catch (error) {
-      
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   }
 }

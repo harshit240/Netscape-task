@@ -23,7 +23,7 @@ router.delete('/books/:id',CheckUserAuth,BookController.deleteBook);
 //Checkout Book
 router.post('/checkouts/:id',CheckUserAuth,BookController.checkoutBook);
 
-router.post('/checkouts/:id',CheckUserAuth,BookController.returnBook);
+router.put('/checkouts/:id',CheckUserAuth,BookController.returnBook);
 
 
 
