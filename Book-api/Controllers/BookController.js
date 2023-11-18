@@ -5,10 +5,10 @@ class BookController {
 
   static getAllBooks = async (req, res) => {
     try {
-      const Posts = await bookModel.find();
+      const books = await bookModel.find();
       res.status(200).json({
         success: true,
-        Posts,
+        books,
       });
     } catch (error) {
       console.log(err);
@@ -25,7 +25,7 @@ class BookController {
           message: 'All fields are required',
         });
       }
-      
+
       const addBook = await bookModel.create({
         title: req.body.title,
         author: req.body.author,

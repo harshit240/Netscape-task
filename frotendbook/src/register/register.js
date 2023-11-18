@@ -27,6 +27,7 @@ const Register = () => {
             console.error('Registration failed:', error);
         }
     }
+    
     const authenticated = async () =>{
         const isValid = localStorage.getItem('token');
         if(isValid){
