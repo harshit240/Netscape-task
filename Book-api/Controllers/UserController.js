@@ -48,7 +48,7 @@ class UserController {
                     const isMatched = await bcrypt.compare(password, user.password)
                     if ((user.email === email) && isMatched) {
                         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
-                            expiresIn: '20m'
+                            expiresIn: '1h'
                         });
                         res.cookie("token", token);
                         res.status(201).json({
