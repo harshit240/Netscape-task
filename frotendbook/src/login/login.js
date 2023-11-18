@@ -28,7 +28,7 @@ const Login = () => {
 
     const authenticated = async () =>{
         const isValid = await localStorage.getItem('token');
-        if(!isValid){
+        if(isValid){
             navigate('/home')
         }
     }

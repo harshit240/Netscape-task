@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -27,6 +27,16 @@ const Register = () => {
             console.error('Registration failed:', error);
         }
     }
+    const authenticated = async () =>{
+        const isValid = localStorage.getItem('token');
+        if(isValid){
+            navigate('/home')
+        }
+    }
+
+    useEffect(()=>{
+        authenticated();
+    })
     return (
         <>
             <div className="register-container">
